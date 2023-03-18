@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    #region Singelton
+    public static InputManager Instance
     {
-        
+        get
+        {
+            if (_instance == null)
+                _instance = new GameObject(nameof(InputManager)).AddComponent<InputManager>();
+
+            return _instance;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private static InputManager _instance;
+    #endregion
+
+    public InputListener ActiveInputListener { get; private set; }
+
+    private void Awake()
     {
-        
+        ActiveInputListener = new KeyboardMouseListener();
     }
 }

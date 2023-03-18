@@ -7,7 +7,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private PlayerSettings _playerSettings;
 
     private float _speed => _playerSettings.Speed;
-    private Vector2 _input => new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    private Vector2 _input => InputManager.Instance.ActiveInputListener.Movement;
     private Rigidbody2D _rigidbody;
 
     private void Start()
@@ -22,6 +22,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void TryMove()
     {
+        if (!isLocalPlayer) return;
         if (_input == Vector2.zero) return;
 
         _rigidbody.MovePosition((Vector2)transform.position + _input * _speed);
